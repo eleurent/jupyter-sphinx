@@ -434,7 +434,11 @@ class CellOutputsToNodes(SphinxTransform):
                 thebe_config,
             )
             # Remove the outputbundlenode and we'll attach the outputs next
-            attach_outputs(output_nodes, cell_node, thebe_config, cell_node.cm_language)
+            try:
+                cm_language = cell_node.cm_language
+            except AttributeError:
+                cm_language = "python"
+            attach_outputs(output_nodes, cell_node, thebe_config, cm_language)
 
         # Image collect extra nodes from cell outputs that we need to process
         for node in self.document.traverse(image):
